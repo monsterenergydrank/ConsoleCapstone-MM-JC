@@ -27,6 +27,7 @@ void loop() {
   int btn = (digitalRead(joyBtn)==LOW)? 1:0;
   int btn2 = (digitalRead(rBtn)==LOW)? 1:0; 
   int btn3 = (digitalRead(ClickBtn) == LOW) ? 1 : 0
+  int reed = (digitalRead(reedSwitch)==LOW)?1:0
 #prints position of x and y along with button inputs
   Serial.print(x);
   Serial.print(",");
@@ -36,7 +37,9 @@ void loop() {
   Serial.print(",");
   Serial.print(btn2);
   Serial.print(",");
-  Serial.println(btn3);
+  Serial.print(btn3);
+  Serial.print(",");
+  Serial.println(reed);
 
 //delay to not overwhelm serial monitor
   delay(10);  
