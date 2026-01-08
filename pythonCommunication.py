@@ -3,6 +3,8 @@
 #UInput makes virtual input device
 #ecodes as e access to input codes like x,y, and mouse clicks
 import serial
+import os
+import time
 from evdev import UInput, ecodes as e
 
 #port arduino is connected to
@@ -15,6 +17,8 @@ DEADZONE = 50
 SCALE = 0.01
 
 #multiplied to joystick values to control speed
+
+SHUTDOWN_TIME = 2.0
 
 #ser object to read from the serial class
 #serial port and baud rate timeout to wait for data
@@ -30,9 +34,10 @@ ui = UInput({
 
 
 #message to see if code runs
-print("Arduino joystick mouse active")
+print("Joystick On")
 
-
+reed_start = None
+shutdown_on = False
 
 #try for inputs could interrupt code
 try:
@@ -55,6 +60,21 @@ try:
                 ui.write(e.EV_KEY, e.BTN_LEFT, clickBtn)
                	ui.write(e.EV_KEY, e.BTN_MIDDLE, joyBtn)
               	ui.write(e.EV_KEY,e.BTN_RIGHT,rBtn)
+
+#reed switch connected to magnet shutdown won't start until timer activates
+                if reed == 1 and not shutdown_on:
+                    if reed_start is None:
+                        #timer starts here
+                        reed_start = time.time()
+                        #if the magnet is connected for long enough it will shut down
+                    elif time.time() - reed_start >= SHUTDOWN_TIME:
+                        print("reed switch connected - shut down")
+                    shutdown_on = True
+                    #message sent to system to shutdown
+                    os.system("sudo shutdown -h now")
+                elif reed == 0:
+                    reed_start = None
+                #resets timer if the reed switch magnet is removed early
 #sends events to system
                 ui.syn()
 #ignoring value error and continues reading inputs from loop
@@ -63,7 +83,7 @@ try:
 
 #ctrl c interrupt signal will stop program
 except KeyboardInterrupt:
-    print("Exiting...")
+    print("Exit")
 #closes virtual mouse and serial communication
 finally:
     ui.close()
