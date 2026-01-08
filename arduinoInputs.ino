@@ -4,6 +4,7 @@ const int joyY = A1;
 const int ClickBtn = 2;
 const int joyBtn = 3 
 const int rBtn = 4
+const int reedSwitch = 8;
 
 void setup() {
 #baud rate set to 115200
@@ -13,7 +14,8 @@ void setup() {
 //inputpullup uses internal built in resistors reads high as sensor off low sensor is on it reads the ground makes it so real resistors wont be needed
   pinMode(ClickBtn, INPUT_PULLUP);
   pinMode(joyBtn, INPUT_PULLUP);
-  pinMode(rBtn, INPUT_PULLUP); 
+  pinMode(rBtn, INPUT_PULLUP);
+  pinMode(reedSwitch,INPUT_PULLUP);
 }
 #joystick sits around position 512 so its subtracted to start at position 0 it reads from (-500,500)
 void loop() {
