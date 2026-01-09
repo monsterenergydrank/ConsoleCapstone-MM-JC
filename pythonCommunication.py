@@ -29,7 +29,7 @@ ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1)
 
 ui = UInput({
     e.EV_REL: [e.REL_X, e.REL_Y],
-    e.EV_KEY: [e.BTN_LEFT ,e.BTN_MIDDLE,e.BTN_RIGHT]
+    e.EV_KEY: [e.BTN_LEFT ,e.BTN_MIDDLE,e.BTN_RIGHT,e.KEY_W,e.KEY_A,e.KEY_S,e.KEY_D]
 })
 
 
@@ -48,7 +48,7 @@ try:
             continue
 #map function creates a range of values that are set to ints and separated by “,”
         try:
-            x, y, clickBtn, btn,btn2  = map(int, line.split(","))
+            x, y, clickBtn, btn,btn2,reed,wBtn,aBtn,sBtn,dBtn  = map(int, line.split(","))
 #deadzone checks if absolute value of x is greater than the deadzone then sends events to move mouse by x/y places
 
             if abs(x) > DEADZONE:
@@ -60,6 +60,10 @@ try:
                 ui.write(e.EV_KEY, e.BTN_LEFT, clickBtn)
                	ui.write(e.EV_KEY, e.BTN_MIDDLE, joyBtn)
               	ui.write(e.EV_KEY,e.BTN_RIGHT,rBtn)
+                ui.write(e.EV_KEY,e.KEY_W,wBtn)
+ 	            ui.write(e.EV_KEY,e.KEY_A,aBtn)
+ 	            ui.write(e.EV_KEY,e.KEY_S,sBtn)
+ 	            ui.write(e.EV_KEY,e.KEY_D,dBtn)
 
 #reed switch connected to magnet shutdown won't start until timer activates
                 if reed == 1 and not shutdown_on:
