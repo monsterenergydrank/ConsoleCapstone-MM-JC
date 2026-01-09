@@ -2,13 +2,13 @@
 const int joyX = A0;
 const int joyY = A1;
 const int ClickBtn = 2;
-const int joyBtn = 3 
-const int rBtn = 4
+const int joyBtn = 6; //leftclick
+const int rBtn = 7;   //rightclick
 const int reedSwitch = 8;
-const int wkey = 5;
-const int akey =7;
-const int skey=8;
-const int dkey =9;
+const int wkey = 4;
+const int akey =3;
+const int skey=2;
+const int dkey =d;
 
 void setup() {
 #baud rate set to 115200
