@@ -5,6 +5,10 @@ const int ClickBtn = 2;
 const int joyBtn = 3 
 const int rBtn = 4
 const int reedSwitch = 8;
+const int wkey = 5;
+const int akey =7;
+const int skey=8;
+const int dkey =9;
 
 void setup() {
 #baud rate set to 115200
@@ -16,6 +20,11 @@ void setup() {
   pinMode(joyBtn, INPUT_PULLUP);
   pinMode(rBtn, INPUT_PULLUP);
   pinMode(reedSwitch,INPUT_PULLUP);
+  PinMode(wkey,INPUT_PULLUP);
+  PinMode(akey,INPUT_PULLUP);
+  PinMode(skey,INPUT_PULLUP);
+  PinMode(dkey,INPUT_PULLUP);
+
 }
 #joystick sits around position 512 so its subtracted to start at position 0 it reads from (-500,500)
 void loop() {
@@ -28,6 +37,11 @@ void loop() {
   int btn2 = (digitalRead(rBtn)==LOW)? 1:0; 
   int btn3 = (digitalRead(ClickBtn) == LOW) ? 1 : 0
   int reed = (digitalRead(reedSwitch)==LOW)?1:0
+  int wBtn = (digitalRead(wkey)==LOW)?1:0
+  int aBtn = (digitalRead(akey)==LOW)?1:0
+  int sBtn = (digitalRead(skey)==LOW)?1:0
+  int dBtn = (digitalRead(dkey)==LOW)?1:0
+
 #prints position of x and y along with button inputs
   Serial.print(x);
   Serial.print(",");
@@ -38,6 +52,14 @@ void loop() {
   Serial.print(btn2);
   Serial.print(",");
   Serial.print(btn3);
+  Serial.print(",");
+  Serial.print(wBtn);
+  Serial.print(",");
+  Serial.print(aBtn);
+  Serial.print(",");
+  Serial.print(sBtn);
+  Serial.print(",");
+  Serial.print(dBtn);
   Serial.print(",");
   Serial.println(reed);
 
