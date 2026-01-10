@@ -1,8 +1,8 @@
 //Joystick pins connected to A0 and A1 and button click pin is connected to 2 and the joystick itself is connected to pin 6
 const int joyX = A0;
 const int joyY = A1;
-const int ClickBtn = 2;
-const int joyBtn = 6; //leftclick
+const int ClickBtn = 6;
+const int joyBtn = 9; //leftclick
 const int rBtn = 7;   //rightclick
 const int reedSwitch = 8;
 const int wkey = 4;
