@@ -8,7 +8,7 @@ const int reedSwitch = 8;
 const int wkey = 4;
 const int akey =3;
 const int skey=2;
-const int dkey =d;
+const int dkey =5;
 
 void setup() {
 #baud rate set to 115200
