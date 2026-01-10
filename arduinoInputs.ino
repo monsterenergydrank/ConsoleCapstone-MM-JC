@@ -20,29 +20,29 @@ void setup() {
   pinMode(joyBtn, INPUT_PULLUP);
   pinMode(rBtn, INPUT_PULLUP);
   pinMode(reedSwitch,INPUT_PULLUP);
-  PinMode(wkey,INPUT_PULLUP);
-  PinMode(akey,INPUT_PULLUP);
-  PinMode(skey,INPUT_PULLUP);
-  PinMode(dkey,INPUT_PULLUP);
+  pinMode(wkey,INPUT_PULLUP);
+  pinMode(akey,INPUT_PULLUP);
+  pinMode(skey,INPUT_PULLUP);
+  pinMode(dkey,INPUT_PULLUP);
 
 }
-#joystick sits around position 512 so its subtracted to start at position 0 it reads from (-500,500)
+//joystick sits around position 512 so its subtracted to start at position 0 it reads from (-500,500)
 void loop() {
   int x = analogRead(joyX) - 512;
   int y = analogRead(joyY) - 512;
 
-#if button is low then it will be seen as pressed (1)
+//if button is low then it will be seen as pressed (1)
  ;
   int btn = (digitalRead(joyBtn)==LOW)? 1:0;
   int btn2 = (digitalRead(rBtn)==LOW)? 1:0; 
-  int btn3 = (digitalRead(ClickBtn) == LOW) ? 1 : 0
-  int reed = (digitalRead(reedSwitch)==LOW)?1:0
-  int wBtn = (digitalRead(wkey)==LOW)?1:0
-  int aBtn = (digitalRead(akey)==LOW)?1:0
-  int sBtn = (digitalRead(skey)==LOW)?1:0
-  int dBtn = (digitalRead(dkey)==LOW)?1:0
+  int btn3 = (digitalRead(ClickBtn) == LOW) ? 1 : 0;
+  int reed = (digitalRead(reedSwitch)==LOW)?1:0;
+  int wBtn = (digitalRead(wkey)==LOW)?1:0;
+  int aBtn = (digitalRead(akey)==LOW)?1:0;
+  int sBtn = (digitalRead(skey)==LOW)?1:0;
+  int dBtn = (digitalRead(dkey)==LOW)?1:0;
 
-#prints position of x and y along with button inputs
+//prints position of x and y along with button inputs
   Serial.print(x);
   Serial.print(",");
   Serial.print(y);
