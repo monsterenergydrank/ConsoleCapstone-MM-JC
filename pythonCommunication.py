@@ -48,39 +48,40 @@ try:
             continue
 #map function creates a range of values that are set to ints and separated by “,”
         try:
-            x, y, clickBtn, btn,btn2,reed,wBtn,aBtn,sBtn,dBtn  = map(int, line.split(","))
+            x, y, btn,btn2,wBtn,aBtn,sBtn,dBtn,reed  = map(int, line.split(","))
 #deadzone checks if absolute value of x is greater than the deadzone then sends events to move mouse by x/y places
+#event type key for left button, clickBtn is value from arduino
+#ui.write(e.EV_KEY, e.BTN_MIDDLE, joyBtn)
 
             if abs(x) > DEADZONE:
                 ui.write(e.EV_REL, e.REL_X, int(-x * SCALE))
 
             if abs(y) > DEADZONE:
                 ui.write(e.EV_REL, e.REL_Y, int(-y * SCALE))
-#event type key for left button, clickBtn is value from arduino
-                ui.write(e.EV_KEY, e.BTN_LEFT, clickBtn)
-               	ui.write(e.EV_KEY, e.BTN_MIDDLE, joyBtn)
-              	ui.write(e.EV_KEY,e.BTN_RIGHT,rBtn)
-                ui.write(e.EV_KEY,e.KEY_W,wBtn)
- 	            ui.write(e.EV_KEY,e.KEY_A,aBtn)
- 	            ui.write(e.EV_KEY,e.KEY_S,sBtn)
- 	            ui.write(e.EV_KEY,e.KEY_D,dBtn)
+                
+            ui.write(e.EV_KEY, e.BTN_LEFT, btn)
+            ui.write(e.EV_KEY, e.BTN_RIGHT, btn2)
+            ui.write(e.EV_KEY, e.KEY_W, wBtn)
+            ui.write(e.EV_KEY, e.KEY_A, aBtn)
+            ui.write(e.EV_KEY, e.KEY_S, sBtn)
+            ui.write(e.EV_KEY, e.KEY_D, dBtn)
 
 #reed switch connected to magnet shutdown won't start until timer activates
-                if reed == 1 and not shutdown_on:
-                    if reed_start is None:
-                        #timer starts here
-                        reed_start = time.time()
-                        #if the magnet is connected for long enough it will shut down
-                    elif time.time() - reed_start >= SHUTDOWN_TIME:
-                        print("reed switch connected - shut down")
+            if reed == 1 and not shutdown_on:
+                if reed_start is None:
+                    #timer starts here
+                    reed_start = time.time()
+                    #if the magnet is connected for long enough it will shut down
+                elif time.time() - reed_start >= SHUTDOWN_TIME:
+                    print("reed switch connected - shut down")
                     shutdown_on = True
                     #message sent to system to shutdown
                     os.system("sudo shutdown -h now")
-                elif reed == 0:
-                    reed_start = None
+            elif reed == 0:
+                reed_start = None
                 #resets timer if the reed switch magnet is removed early
 #sends events to system
-                ui.syn()
+            ui.syn()
 #ignoring value error and continues reading inputs from loop
         except ValueError:
             pass
