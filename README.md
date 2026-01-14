@@ -78,3 +78,24 @@ WantedBy=multi-user.target
 #ends here
 
 Self note: in terminal enter nmtui for wifi connection
+
+shell script created to run duck hunt through terminal commands/through files:
+
+nano /home/cheeseits/duck_start.sh
+
+#!/bin/bash 
+Tells system that the script should be used to execute commands in the file
+
+cd "/home/cheeseits/Downloads/project/Duck Hunt Style Game 2025"
+mkdir -p bin
+javac -d bin scr/*.java
+java -cp bin Frame
+
+#ends here
+
+chmod +x /home/cheeseits/duck_start.sh
+#makes file executable^
+
+
+
+
