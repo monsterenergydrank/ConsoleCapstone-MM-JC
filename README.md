@@ -2,6 +2,11 @@
 Michael Monrroy's and Julius Conception's Capstone Project
 !
 Work done to ensure the display would connect
+
+Raspberry pi imager used to switch to 32 bit os (bookworm legacy) 
+done to solve connection errors for display 
+some of the drivers were dated and worked properly on an older os
+
 https://www.reddit.com/r/raspberry_pi/comments/1lk18a7/35_lcd_touchscreen_for_raspberry_pi_3b/ 
 used to help set up 3.5 LCD with drivers
 /boot/config.txt edited (
