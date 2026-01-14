@@ -77,7 +77,11 @@ Environment=PYTHONUNBUFFERED=1
 WantedBy=multi-user.target
 #ends here
 
-Self note: in terminal enter nmtui for wifi connection
+Self note: 
+in terminal enter nmtui for wifi connection
+had issues with logging into pi had to forcibly go to tty1 screen to login
+to go there: ctrl + alt + f1
+after entering username+password enter command startx to load desktop
 
 shell script created to run duck hunt through terminal commands/through files:
 
