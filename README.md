@@ -36,6 +36,12 @@ Initial Layout:
 <img width="612" height="792" alt="initial layout" src="https://github.com/user-attachments/assets/d8ba7447-3555-40c2-978a-30b2a3a4723f" />
 Final Layout:
 <img width="621" height="720" alt="final design" src="https://github.com/user-attachments/assets/3fbf5cee-6735-4fa3-97a3-840573aac3a4" />
+Result:
+
+
+https://github.com/user-attachments/assets/c24d6fb1-682a-40b4-a1de-58617f328f8f
+
+
 
 Work done to ensure the display would connect
 
