@@ -21,6 +21,8 @@ Disatisfied with the size of the display, I purchased a 3.5" display that would 
 
 
 For our inputs, we used Ms Hester's Arduino and used serial communication with the Raspberry Pi to allow for the readings of our inputs.
+We used a parallax 2-axis thumbstick and tiny buttons found in Ms Hesters room since Ms Hester's Arduino kit provided instructions to help code the button inputs and the thumbstick had easy accessable datasheets to provide guidance with wiring
+https://www.parallax.com/product/2-axis-joystick/ 
 
 Skills demonstrated:
 Usage of Python: learnt to adapt to Python syntax, learning about tabbing, try syntax, if statements, utilized Python libraries to access features of the Raspberry Pi such as keyboard inputs and time
