@@ -4,7 +4,7 @@ Michael Monrroy's and Julius Conception's Capstone Project
 Work done to ensure the display would connect
 https://www.reddit.com/r/raspberry_pi/comments/1lk18a7/35_lcd_touchscreen_for_raspberry_pi_3b/ 
 used to help set up 3.5 LCD with drivers
-/boot/config.txt edited
+/boot/config.txt edited (
 
 #dtparam=i2c_arm=on
 #dtparam=i2s=on
@@ -32,3 +32,49 @@ dtoverlay=piscreen,speed=32000000,drm,swapxy=1,invy=0
 max_framebuffers=2
 hdmi_force_hotplug=1
 enable_uart=1
+)
+
+useful resources used to help with understanding arduino/python code:
+
+https://www.youtube.com/watch?v=BkZwxEueja8 
+https://docs.arduino.cc/language-reference/en/functions/digital-io/digitalread/
+https://docs.arduino.cc/learn/microcontrollers/digital-pins/ 
+https://linux.die.net/man/5/xorg.conf  https://linux.die.net/man/4/evdev 
+https://www.instructables.com/How-to-Make-a-Basic-Computer-Mouse-Using-the-Joyst/ 
+https://python-evdev.readthedocs.io/en/latest/ 
+https://python-evdev.readthedocs.io/en/latest/tutorial.html 
+https://processing.org/reference/libraries/serial/Serial.html 
+https://docs.kernel.org/input/uinput.html 
+https://www.w3schools.com/python/default.asp 
+https://www.youtube.com/watch?v=V_NXT2-QIlE 
+
+Systemd file created to auto run controller code on boot
+
+[Unit]
+Description: Arduino controller
+After=dev.ttyACM0.device
+#waits for usb to be in port before starting
+
+[Service]
+
+Type=simple
+#type simple so service starts immediately
+#path to python code
+#automatically will restart if service exits
+#waits 2 seconds before restarting
+#service ran as root since there are commands that need high permissions like keyboard inputs
+#python output logs will be in journalctl to see errors
+
+ExecStart=/usr/bin/python3 /home/cheeseits/testy2.py
+Restart=always
+RestartSec=2
+User=root
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+#systemd starts service during boot
+
+WantedBy=multi-user.target
+#ends here
+
+Self note: in terminal enter nmtui for wifi connection
