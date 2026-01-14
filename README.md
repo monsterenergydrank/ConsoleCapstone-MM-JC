@@ -105,6 +105,6 @@ java -cp bin Frame
 chmod +x /home/cheeseits/duck_start.sh
 #makes file executable^
 
-
+Visual Studio Code installed to run java code as Eclipse versions wouldn't run on dated os
 
 
