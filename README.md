@@ -11,6 +11,9 @@ But our main focus switched to creating an interface that can select and play di
 Usage of Ms Hester's Arduino kit was used to build a foundational understanding of how LCD's and inputs work with Arduino
 
 <img width="412" height="416" alt="Screenshot 2026-01-14 11 26 12 AM" src="https://github.com/user-attachments/assets/1e6a0283-b505-4748-9a9f-8bedbd9a0418" />
+
+
+
 Work done to ensure the display would connect
 
 Raspberry pi imager used to switch to 32 bit os (bookworm legacy) 
