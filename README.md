@@ -13,6 +13,19 @@ Usage of Ms Hester's Arduino kit was used to build a foundational understanding 
 <img width="412" height="416" alt="Screenshot 2026-01-14 11 26 12 AM" src="https://github.com/user-attachments/assets/1e6a0283-b505-4748-9a9f-8bedbd9a0418" />
 
 
+<img width="403" height="249" alt="Screenshot 2026-01-14 11 29 50 AM" src="https://github.com/user-attachments/assets/773575c5-90f7-41ba-86e7-166e794558e8" />
+
+Disatisfied with the size of the display, I purchased a 3.5" display that would sit on top of the Raspberry Pi, taking up pins that would make it difficult to directly connect buttons to the Pi. 
+
+<img width="150" height="131" alt="Screenshot 2026-01-14 11 31 53 AM" src="https://github.com/user-attachments/assets/4a980f9f-f10c-46d3-82ee-4a51d1e3bc1c" />
+
+
+For our inputs, we used Ms Hester's Arduino and used serial communication with the Raspberry Pi to allow for the readings of our inputs.
+
+Skills demonstrated:
+
+Reflection:
+This project taught me to utilise the principles of the engineering design process to create a product that would solve our problem, even if our outcome was different from what we believed it would be. It was important not to go straight into hardware and code, as I had no experience using a Linux-based OS or Python and Arduino. Utilizing Ms Hester's kits gave me a foundation of how to work with hardware alongside software. 
 
 Work done to ensure the display would connect
 
@@ -119,5 +132,3 @@ chmod +x /home/cheeseits/duck_start.sh
 #makes file executable^
 
 Visual Studio Code installed to run java code as Eclipse versions wouldn't run on dated os
-
-
