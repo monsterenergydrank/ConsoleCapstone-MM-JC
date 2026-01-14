@@ -1,6 +1,18 @@
 # ConsoleCapstone-MM-JC
 Michael Monrroy's and Julius Conception's Capstone Project
 !
+Design process: 
+Initial problem: 
+The problem is that game consoles run out of battery too soon and screen glare makes usage of the console difficult outdoors. We’d use solar energy to power our console when there’s a light source similar to a battery. The console would be able to be powered by a rechargeable battery as well so at night the console would switch energy sources.
+
+But our main focus switched to creating an interface that can select and play different games that is controlled by a joystick, buttons, and is displayed on a screen
+
+To make 
+
+Usage of Ms Hester's arduino kit was used to build a foundational understanding of how LCD's and inputs work with arduino
+
+
+
 Work done to ensure the display would connect
 
 Raspberry pi imager used to switch to 32 bit os (bookworm legacy) 
