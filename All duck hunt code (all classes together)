@@ -1,0 +1,1225 @@
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+public class Frame extends JPanel implements ActionListener, MouseListener, KeyListener {
+	
+	//frame size
+//	private int screenWidth = 900, screenHeight = 800;
+		private static int screenWidth = 480, screenHeight = 320;
+	private String title = "Five ducks at hunt";
+	
+	
+	/**
+	 * Declare and instantiate (create) your objects here
+	 */
+	private Duck duckObject = new Duck();
+	private background myBackground = new background();
+	private Tree treeObject = new Tree();
+//	private Freddy freddyObject = new Freddy();
+	private Golden goldenObject = new Golden();
+//	private crosshair myCrosshair = new crosshair();
+	private foxy myFoxy = new foxy();
+	private freddyEyes myEyes = new freddyEyes();	
+	public ammo myAmmo = new ammo();
+	private MyCursor cursor = new MyCursor();
+//	private gameStart EndScreen = new gameStart();
+	
+	//music objects
+	Music mouseClickSound = new Music ("sfx_wpn_laser9.wav",false);
+	Music jumpscareSound = new Music("jumpscare.wav",false);
+	Music oof = new Music("oof.wav",false);
+	
+	private int totalScore = 0;
+	private int Ammo = 3;
+	private int usage = 10;
+	
+	
+	
+	// 2nd one added later with bgmusic
+	//Music bgMusic = new Music ("bg_music.wav", true);
+	
+	
+	
+	public void paint(Graphics pen) {
+		
+		//this line of code is to force redraw the entire frame
+		super.paintComponent(pen);
+		Graphics2D pen2 = (Graphics2D) pen;
+		
+		double scaleX = getWidth() / (double) screenWidth;
+		double scaleY = getHeight() / (double) screenHeight;
+		
+		pen2.scale(scaleX, scaleY);
+		//call paint for the object
+		//for objects, you call methods on them using the dot operator
+		//methods use always involve parenthesis
+		myBackground.paint(pen2);
+		
+		goldenObject.paint(pen2);
+		
+		
+//		freddyObject.paint(pen);
+		
+		myFoxy.paint(pen2);
+		
+		
+		myEyes.paint(pen2);
+		
+//		myCrosshair.paint(pen);
+		
+		duckObject.paint(pen2);
+		
+		treeObject.paint(pen2);
+		
+		myAmmo.paint(pen2);
+		
+		cursor.paint(pen2);
+		
+		Font f = new Font("comic sans", Font.PLAIN, 30);
+		pen.setFont(f);
+		pen.setColor(Color.red);
+		pen.drawString("" + totalScore, 745, 50);
+		
+		
+		
+	}
+	
+	
+	
+	@Override
+	public void mouseClicked(MouseEvent mouse) {
+	    // Runs when the mouse is clicked (pressed and released quickly).
+	    // Example: You could use this to open a menu or select an object.
+	}
+	@Override
+	public void mouseEntered(MouseEvent mouse) {
+	    // Runs when the mouse enters the area of a component (like a button).
+	    // Example: You could highlight the button when the mouse hovers over it.
+	}
+	@Override
+	public void mouseExited(MouseEvent mouse) {
+	    // Runs when the mouse leaves the area of a component.
+	    // Example: You could remove the highlight when the mouse moves away.
+	}
+	@Override
+	public void mousePressed(MouseEvent mouse) {
+	    // Runs when a mouse button is pressed down.
+	    // Example: You could start dragging an object here.
+		System.out.println(mouse.getX()+":"+mouse.getY());
+		
+		this.duckObject.checkCollision(mouse.getX()+50, mouse.getY());
+		
+		//make the music file play each click
+//		this.mouseClickSound.play();
+		
+		if(this.duckObject.checkCollision(mouse.getX()+50, mouse.getY())) {
+			usage = usage -1;
+			totalScore++;
+			this.jumpscareSound.play();
+		}else {
+			
+			this.oof.play();
+			Ammo = Ammo -1;
+			
+			
+			if(Ammo <=3 ) {
+				myAmmo.imageSet1();
+			} else if (Ammo <= 2) {
+				myAmmo.imageSet2();
+			}else if (Ammo <= 1) {
+				myAmmo.imageSet3();
+			}else {
+				myAmmo.imageSet4();
+			}
+		}
+//		if(Ammo >=3 ) {
+//			myAmmo.imageSet1();
+//		} else if (Ammo <= 2) {
+//			myAmmo.imageSet2();
+//		}else if (Ammo <= 1) {
+//			myAmmo.imageSet3();
+//		}else {
+//			myAmmo.imageSet4();
+//		}
+		
+		
+	}
+	
+	
+	@Override
+	public void mouseReleased(MouseEvent mouse) {
+	    // Runs when a mouse button is released.
+	    // Example: You could stop dragging the object or drop it in place.
+	}
+	/*
+	 * This method runs automatically when a key is pressed down
+	 */
+	public void keyPressed(KeyEvent key) {
+		
+		System.out.println("from keyPressed method:"+key.getKeyCode());
+		
+		
+		
+	}
+	/*
+	 * This method runs when a keyboard key is released from a pressed state
+	 * aka when you stopped pressing it
+	 */
+	public void keyReleased(KeyEvent key) {
+		
+	}
+	/**
+	 * Runs when a keyboard key is pressed then released
+	 */
+	public void keyTyped(KeyEvent key) {
+		
+		
+	}
+	
+	
+	/**
+	 * The Timer animation calls this method below which calls for a repaint of the JFrame.
+	 * Allows for our animation since any changes to states/variables will be reflected
+	 * on the screen if those variables are being used for any drawing on the screen.
+	 */
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		repaint();
+	}
+	
+	/*
+	 * Main method to create a Frame (the GUI that you see)
+	 */
+	public static void main(String[] arg) {
+		new Frame();
+		
+	}
+	
+	
+	
+	public Frame() {
+		JFrame f = new JFrame(title);
+		f.setSize(new Dimension(screenWidth, screenHeight));
+		f.setBackground(Color.blue);
+		f.add(this);
+		f.setResizable(false);
+		f.setLayout(new GridLayout(1,2));
+		f.addMouseListener(this);
+		f.addKeyListener(this);
+		Timer t = new Timer(16, this);
+		t.start();
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setVisible(true);
+		
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		Image image = toolkit.getImage("freddycrosshair3.png");
+		Cursor a = toolkit.createCustomCursor(image, new Point(this.getX(),this.getY()), "");
+		this.setCursor(a);
+		
+		Timer t1 = new Timer(16,this);
+		t1.start();
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setVisible(true);
+
+
+		
+		
+	}
+}
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.geom.AffineTransform;
+import java.net.URL;
+
+
+// The Duck class represents a picture of a duck that can be drawn on the screen.
+public class foxy {
+    // Instance variables (data that belongs to each Duck object)
+    private Image img;               // Stores the picture of the duck
+    private AffineTransform tx;      // Used to move (translate) and resize (scale) the image
+
+
+    // Variables to control the size (scale) of the duck image
+//    private double scaleX;           
+//    private double scaleY;           
+
+
+    // Variables to control the location (x and y position) of the duck
+    private int x;                
+    private int y;        
+    //removing the scale values to use set global scale changing
+    //using int since decimals aren't necessary, cleaner
+    //width and height are scaled down variables
+    //variables for speed
+    private int vx;
+    private int vy;
+    private int width;
+    private int height;
+    // Constructor: runs when you make a new Duck object
+    public foxy() {
+        img = getImage("/imgs/foxy fnaf.gif"); // Load the image file
+        
+        tx = AffineTransform.getTranslateInstance(0, 0); // Start with image at (0,0)
+        
+        // Default values
+//      scaleX = 1;
+//      scaleY = 1;
+//      x = 500;
+//      y = 300;    
+//        scaleX = 4;
+//        scaleY = 4.5;
+        x = 150;
+        y = 200;   
+        width = 80;
+        height = 90;
+
+
+        init(x, y); // Set up the starting location and size
+    }
+    
+    //2nd constructor to initialize location and scale!
+    public foxy(int x, int y) {
+    	this();
+    	this.x 		= x;
+    	this.y 		= y;
+//    	this.scaleX = scaleX;
+//    	this.scaleY = scaleY;
+    	init(x,y);
+    }
+    
+    //2nd constructor to initialize location and scale!
+    public foxy(int x, int y, int scaleX, int scaleY, int vx, int vy) {
+    	this();
+    	this.x 		= x;
+    	this.y 		= y;
+//    	this.scaleX = scaleX;
+//    	this.scaleY = scaleY;
+    	this.vx 	= vx; 
+    	this.vy 	= vy;
+    	init(x,y);
+    }
+    
+    public void setVelocityVariables(int vx, int vy) {
+    	this.vx = vx;
+    	this.vy = vy;
+    }
+    
+    
+    // Changes the picture to a new image file
+    public void changePicture(String imageFileName) {
+        img = getImage("/imgs/"+imageFileName);
+        init(x, y); // keep same location when changing image
+    }
+    
+    //update any variables for the object such as x, y, vx, vy
+    public void update() {
+    	
+    }
+    
+    
+    
+    // Draws the duck on the screen
+    public void paint(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;   // Graphics2D lets us draw images
+        //x,y top left corners, width height size of image
+        g2.drawImage(img ,x , y,width,height,null);      // Actually draw the duck image
+        update();
+        init(x,y);
+    }
+    
+    // Setup method: places the duck at (a, b) and scales it
+    private void init(double a, double b) {
+        tx.setToTranslation(a, b);        // Move the image to position (a, b)
+//        tx.scale(scaleX, scaleY);         // Resize the image using the scale variables
+    }
+
+
+    // Loads an image from the given file path
+    private Image getImage(String path) {
+        Image tempImage = null;
+        try {
+            URL imageURL = foxy.class.getResource(path);
+            tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tempImage;
+    }
+
+
+    // NEW: Method to set scale
+    public void setScale(double sx, double sy) {
+//        scaleX = sx;
+//        scaleY = sy;
+        init(x, y);  // Keep current location
+    }
+
+
+    // NEW: Method to set location
+    public void setLocation(int newX, int newY) {
+        x = newX;
+        y = newY;
+        init(x, y);  // Keep current scale
+    }
+}
+
+
+Background 
+
+
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.geom.AffineTransform;
+import java.net.URL;
+
+
+// The Duck class represents a picture of a duck that can be drawn on the screen.
+public class background {
+    // Instance variables (data that belongs to each Duck object)
+    private Image img;               // Stores the picture of the duck
+    private AffineTransform tx;      // Used to move (translate) and resize (scale) the image
+
+
+    // Variables to control the size (scale) of the duck image
+//    private double scaleX;           
+//    private double scaleY;           
+
+
+    // Variables to control the location (x and y position) of the duck
+    private double x;                
+    private double y;        
+    
+    //variables for speed
+    private int vx;
+    private int vy;
+
+
+    // Constructor: runs when you make a new Duck object
+    public background() {
+    	img = getImage("/imgs/office.png"); // Load the image file
+        
+        tx = AffineTransform.getTranslateInstance(0, 0); // Start with image at (0,0)
+        
+        // Default values
+//        scaleX = .75;
+//        scaleY = .75;
+        x = 0;
+        y = 0;
+
+
+        init(x, y); // Set up the starting location and size
+    }
+    
+    //2nd constructor to initialize location and scale!
+    public background(int x, int y) {
+    	this();
+    	this.x 		= x;
+    	this.y 		= y;
+//    	this.scaleX = scaleX;
+//    	this.scaleY = scaleY;
+    	init(x,y);
+    }
+    
+    //2nd constructor to initialize location and scale!
+    public background(int x, int y, int vx, int vy) {
+    	this();
+    	this.x 		= x;
+    	this.y 		= y;
+//    	this.scaleX = scaleX;
+//    	this.scaleY = scaleY;
+    	this.vx 	= vx; 
+    	this.vy 	= vy;
+    	init(x,y);
+    }
+    
+    public void setVelocityVariables(int vx, int vy) {
+    	this.vx = vx;
+    	this.vy = vy;
+    }
+    
+    
+    // Changes the picture to a new image file
+    public void changePicture(String imageFileName) {
+        img = getImage("/imgs/"+imageFileName);
+        init(x, y); // keep same location when changing image
+    }
+    
+    //update any variables for the object such as x, y, vx, vy
+    public void update() {
+    	
+    }
+    
+    
+    
+    // Draws the duck on the screen
+    public void paint(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;   // Graphics2D lets us draw images
+        g2.drawImage(img,0,0,480,320, null);      // Actually draw the duck image
+        update();
+        init(x,y);
+    }
+    
+    // Setup method: places the duck at (a, b) and scales it
+    private void init(double a, double b) {
+        tx.setToTranslation(a, b);        // Move the image to position (a, b)
+//        tx.scale(scaleX, scaleY);         // Resize the image using the scale variables
+    }
+
+
+    // Loads an image from the given file path
+    private Image getImage(String path) {
+        Image tempImage = null;
+        try {
+            URL imageURL = background.class.getResource(path);
+            tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tempImage;
+    }
+
+
+    // NEW: Method to set scale
+//    public void setScale(double sx, double sy) {
+//        scaleX = sx;
+//        scaleY = sy;
+//        init(x, y);  // Keep current location
+//    }
+
+
+    // NEW: Method to set location
+    public void setLocation(double newX, double newY) {
+        x = newX;
+        y = newY;
+        init(x, y);  // Keep current scale
+    }
+}
+
+
+
+
+
+
+Freddy eyes
+
+
+
+
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.geom.AffineTransform;
+import java.net.URL;
+
+
+// The Duck class represents a picture of a duck that can be drawn on the screen.
+public class freddyEyes {
+    // Instance variables (data that belongs to each Duck object)
+    private Image img;               // Stores the picture of the duck
+    private AffineTransform tx;      // Used to move (translate) and resize (scale) the image
+
+
+    // Variables to control the size (scale) of the duck image
+    private int x;                
+    private int y;        
+    
+    //variables for speed
+    private int vx;
+    private int vy;
+    private int width;
+    private int height;
+
+
+    // Constructor: runs when you make a new Duck object
+    public freddyEyes() {
+        img = getImage("/imgs/download (1).jpg"); // Load the image file
+        
+        tx = AffineTransform.getTranslateInstance(0, 0); // Start with image at (0,0)
+        
+        // Default values
+        width = 80;
+        height = 90;
+        x = -4;
+        y =150;
+
+
+        init(x, y); // Set up the starting location and size
+    }
+    
+    //2nd constructor to initialize location and scale!
+    public freddyEyes(int x, int y, int scaleX, int scaleY) {
+    	this();
+    	this.x 		= x;
+    	this.y 		= y;
+//    	this.scaleX = scaleX;
+//    	this.scaleY = scaleY;
+    	init(x,y);
+    }
+    
+    //2nd constructor to initialize location and scale!
+    public freddyEyes(int x, int y, int scaleX, int scaleY, int vx, int vy) {
+    	this();
+    	this.x 		= x;
+    	this.y 		= y;
+//    	this.scaleX = scaleX;
+//    	this.scaleY = scaleY;
+    	this.vx 	= vx; 
+    	this.vy 	= vy;
+    	init(x,y);
+    }
+    
+    public void setVelocityVariables(int vx, int vy) {
+    	this.vx = vx;
+    	this.vy = vy;
+    }
+    
+    
+    // Changes the picture to a new image file
+    public void changePicture(String imageFileName) {
+        img = getImage("/imgs/"+imageFileName);
+        init(x, y); // keep same location when changing image
+    }
+    
+    //update any variables for the object such as x, y, vx, vy
+    public void update() {
+    	
+    }
+    
+    
+    
+    // Draws the duck on the screen
+    public void paint(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;   // Graphics2D lets us draw images
+        g2.drawImage(img ,x , y,width,height,null);      // Actually draw the duck image
+        update();
+        init(x,y);
+    }
+    
+    // Setup method: places the duck at (a, b) and scales it
+    private void init(double a, double b) {
+        tx.setToTranslation(a, b);        // Move the image to position (a, b)
+//        tx.scale(scaleX, scaleY);         // Resize the image using the scale variables
+    }
+
+
+    // Loads an image from the given file path
+    private Image getImage(String path) {
+        Image tempImage = null;
+        try {
+            URL imageURL = freddyEyes.class.getResource(path);
+            tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tempImage;
+    }
+
+
+    // NEW: Method to set scale
+//    public void setScale(double sx, double sy) {
+////        scaleX = sx;
+////        scaleY = sy;
+////        init(x, y);  // Keep current location
+////    }
+
+
+    // NEW: Method to set location
+    public void setLocation(int newX, int newY) {
+        x = newX;
+        y = newY;
+        init(x, y);  // Keep current scale
+    }
+}
+
+
+
+
+
+
+Duck 
+
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.geom.AffineTransform;
+import java.net.URL;
+
+
+// The Duck class represents a picture of a duck that can be drawn on the screen.
+public class Duck {
+    // Instance variables (data that belongs to each Duck object)
+	private Image img;
+	
+	private Image normal;               // Stores the picture of the duck
+    private Image dead;
+    
+	private Dog dog = new Dog("freddy fazbear not animated.gif");
+
+
+	
+    
+    private AffineTransform tx;      // Used to move (translate) and resize (scale) the image
+
+
+    // Variables to control the size (scale) of the duck image
+    private int x;                
+    private int y;        
+    
+    //variables for speed
+    private int vx;
+    private int vy;
+    private int width;
+    private int height;
+    private boolean down;
+    private boolean cpdead;
+    private boolean alive;
+    // Constructor: runs when you make a new Duck object
+    public Duck() {
+    	
+        normal = getImage("/imgs/crying cppp.gif"); // Load the image file
+        dead = getImage("/imgs/dead.gif");
+        
+        // img will point to current state object for image
+        img = normal;
+        
+        tx = AffineTransform.getTranslateInstance(0, 0); // Start with image at (0,0)
+        
+        // Default values
+//        scaleX = 3.2;
+//        scaleY = 3.2;
+        width = 80;
+        height = 90;
+        x = 50;
+        y = 50;
+        
+        vx = 5;
+        vy = 5;
+        init(x, y); // Set up the starting location and size
+        
+    }
+    
+    //2nd constructor to initialize location and scale!
+    public Duck(int x, int y, int scaleX, int scaleY) {
+    	this();
+    	this.x 		= x;
+    	this.y 		= y;
+//    	this.scaleX = scaleX;
+//    	this.scaleY = scaleY;
+    	init(x,y);
+    }
+    
+    //2nd constructor to initialize location and scale!
+    public Duck(int x, int y, int scaleX, int scaleY, int vx, int vy) {
+    	this();
+    	this.x 		= x;
+    	this.y 		= y;
+//    	this.scaleX = scaleX;
+//    	this.scaleY = scaleY;
+    	this.vx 	= vx; 
+    	this.vy 	= vy;
+    	init(x,y);
+    }
+    
+    public void setVelocityVariables(int vx, int vy) {
+    	this.vx = vx;
+    	this.vy = vy;
+    }
+    
+    
+    // Changes the picture to a new image file
+    public void changePicture(String imageFileName) {
+        img = getImage("/imgs/"+imageFileName);
+        init(x, y); // keep same location when changing image
+    }
+    
+    //update any variables for the object such as x, y, vx, vy
+    public void update() {
+    	
+    	//x position updates based on vx
+    	x+= vx;
+    	
+    	//right side bounce
+    	if(x>450) { //use your own value instead of 400
+    		vx *= -1; //reverse vx direction by mult by -1
+    	}
+    	
+    	//left side bounce
+    	if (x< 0) {
+    		vx *=-1;
+//    		down = false;
+    	}
+    	
+    	if(y<0) {
+    		vy*= -1;
+//    		down = false;
+    	}
+    	
+    	if(y>=250 && cpdead == false) {
+    		vy*=-1;
+    		
+    	}
+    	
+    	
+    	if(y>=300 && cpdead == true) {
+    		y = 50;
+    		x = 50;
+    		vx=3;
+    		vy=3;
+    		cpdead = false;
+    		img = normal;
+    				
+     	}
+    	
+    	
+    	
+    	
+////   
+    	
+    	
+    	
+    	
+    	
+    	//respawn - if falling from the sky respawn at the bottom
+    	
+    	if(vy>=40 && vx==0 && y>300) {
+    		//randomize from 2 and 4
+    		vx = (int)(Math.random()*(5)+2);
+    		//50% chance of going left
+    		if (Math.random()<0.5) {
+    			vx *= -1;
+    		}
+    		
+    		vy = - (int)(Math.random()*3+2);
+    		
+    		// respawning 
+    		img = normal;
+    		
+    	}
+    	
+    	if (y > 300 && vy > 1 && vy < 40) {
+    		vy *= -1;
+    		
+    	}
+    	
+    	
+    	
+    	//y position updates baste on vy
+    	y+= vy;
+
+
+    	
+    }
+    
+    
+    
+    // Draws the duck on the screen
+    public void paint(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;   // Graphics2D lets us draw images
+        
+        if (vx<0) {
+        	//flip around the ducks center
+        	tx.scale(-1, 1);
+        	//move back so it stays in the right place after flipping
+        	tx.translate(-img.getWidth(null), 0);
+        	
+        }
+        
+        g2.drawImage(img, tx, null);      // Actually draw the duck image
+        
+        //hit box
+        g.setColor(Color.green);
+        g.drawRect((int) x, (int) y, 35, 35);
+        
+		dog.paint(g);
+
+
+        
+        update();
+        init(x,y);
+    }
+    
+    // Setup method: places the duck at (a, b) and scales it
+    private void init(double a, double b) {
+        tx.setToTranslation(a, b);        // Move the image to position (a, b)
+//        tx.scale(scaleX, scaleY);         // Resize the image using the scale variables
+    }
+
+
+    // Loads an image from the given file path
+    private Image getImage(String path) {
+        Image tempImage = null;
+        try {
+            URL imageURL = Duck.class.getResource(path);
+            tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tempImage;
+    }
+
+
+    // NEW: Method to set scale
+//    public void setScale(double sx, double sy) {
+//        scaleX = sx;
+//        scaleY = sy;
+//        init(x, y);  // Keep current location
+//    }
+
+
+    // NEW: Method to set location
+    public void setLocation(int newX, int newY) {
+        x = newX;
+        y = newY;
+        init(x, y);  // Keep current scale
+    }
+    
+    /*
+     collision method
+     /*
+      * 
+      */
+    public boolean checkCollision(int mouseX, int mouseY) {
+    	
+    	//represent the mouse as a box
+    	Rectangle mouse = new Rectangle(mouseX, mouseY, 50,50);
+	
+    //represent the oject as a rect
+    	Rectangle thisObject = new Rectangle((int) x, (int) y, 100,100);
+    	
+    	//use built-in method from Rect class to check collijsion
+    	
+    	if(thisObject.intersects(mouse)) {
+    		
+    		//duck falls from sky
+    		vx = 0;
+    		vy = 8;
+    		
+    		//change sprite to the alternate skin
+    		img = dead; //dead sprite
+    		
+    		cpdead = true;
+    		
+    		this.dog.x = (int) x;
+    		this.dog.y = 150;
+    		this.dog.vy = -1;
+    		
+    		return true;
+    		
+    	}else {
+    		
+    		return false;
+    	}
+    
+    }
+    	
+    
+    	
+    	
+    }
+    
+    
+    
+    
+    
+//closing bracket for class dont delete
+
+
+
+
+Crooshair 
+
+
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.geom.AffineTransform;
+import java.net.URL;
+
+
+// The Duck class represents a picture of a duck that can be drawn on the screen.
+public class crosshair {
+    // Instance variables (data that belongs to each Duck object)
+    private Image img;               // Stores the picture of the duck
+    private AffineTransform tx;      // Used to move (translate) and resize (scale) the image
+
+
+    // Variables to control the size (scale) of the duck image
+//    private double scaleX;           
+//    private double scaleY;           
+//
+//    // Variables to control the location (x and y position) of the duck
+//    private double x;                
+//    private double y;        
+//    
+//    //variables for speed
+//    private int vx;
+//    private int vy;
+    
+    private int x;                
+    private int y;    
+    private int vx;
+    private int vy;
+    private int width;
+    private int height;
+    
+    // Constructor: runs when you make a new Duck object
+    public crosshair() {
+        img = getImage("/imgs/freddycrosshair.png"); // Load the image file
+        
+        tx = AffineTransform.getTranslateInstance(0, 0); // Start with image at (0,0)
+        
+        // Default values
+//        scaleX = 5;
+//        scaleY = 5;
+        x = 25;
+        y = 300;
+        width = 0;
+        height = 0;
+        init(x, y); // Set up the starting location and size
+    }
+    
+    //2nd constructor to initialize location and scale!
+    public crosshair(int x, int y, int scaleX, int scaleY) {
+    	this();
+    	this.x 		= x;
+    	this.y 		= y;
+//    	this.scaleX = scaleX;
+//    	this.scaleY = scaleY;
+    	init(x,y);
+    }
+    
+    //2nd constructor to initialize location and scale!
+    public crosshair(int x, int y, int scaleX, int scaleY, int vx, int vy) {
+    	this();
+    	this.x 		= x;
+    	this.y 		= y;
+//    	this.scaleX = scaleX;
+//    	this.scaleY = scaleY;
+    	this.vx 	= vx; 
+    	this.vy 	= vy;
+    	init(x,y);
+    }
+    
+    public void setVelocityVariables(int vx, int vy) {
+    	this.vx = vx;
+    	this.vy = vy;
+    }
+    
+    
+    // Changes the picture to a new image file
+    public void changePicture(String imageFileName) {
+        img = getImage("/imgs/"+imageFileName);
+        init(x, y); // keep same location when changing image
+    }
+    
+    //update any variables for the object such as x, y, vx, vy
+    public void update() {
+    	
+    }
+    
+    
+    
+    // Draws the duck on the screen
+    public void paint(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;   // Graphics2D lets us draw images
+        g2.drawImage(img ,x , y,width,height,null);      // Actually draw the duck image
+        update();
+        init(x,y);
+    }
+    
+    // Setup method: places the duck at (a, b) and scales it
+    private void init(double a, double b) {
+        tx.setToTranslation(a, b);        // Move the image to position (a, b)
+//        tx.scale(scaleX, scaleY);         // Resize the image using the scale variables
+    }
+
+
+    // Loads an image from the given file path
+    private Image getImage(String path) {
+        Image tempImage = null;
+        try {
+            URL imageURL = crosshair.class.getResource(path);
+            tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tempImage;
+    }
+
+
+    // NEW: Method to set scale
+//    public void setScale(double sx, double sy) {
+//        scaleX = sx;
+//        scaleY = sy;
+//        init(x, y);  // Keep current location
+//    }
+
+
+    // NEW: Method to set location
+    public void setLocation(int newX, int newY) {
+        x = newX;
+        y = newY;
+        init(x, y);  // Keep current scale
+    }
+}
+
+
+Golden
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.geom.AffineTransform;
+import java.net.URL;
+
+
+// The Duck class represents a picture of a duck that can be drawn on the screen.
+public class Golden {
+    // Instance variables (data that belongs to each Duck object)
+    private Image img;               // Stores the picture of the duck
+    private AffineTransform tx;      // Used to move (translate) and resize (scale) the image
+
+
+    // Variables to control the size (scale) of the duck image
+//  private double scaleX;           
+//  private double scaleY;           
+
+
+  // Variables to control the location (x and y position) of the duck
+  private int x;                
+  private int y;        
+  
+  //variables for speed
+  private int vx;
+  private int vy;
+  private int width;
+  private int height;
+    // Constructor: runs when you make a new Duck object
+    public Golden() {
+        img = getImage("/imgs/golden freddy sleepy ah-1.png.png"); // Load the image file
+        
+        tx = AffineTransform.getTranslateInstance(0, 0); // Start with image at (0,0)
+        
+        // Default values
+//        scaleX = 4.5;
+//        scaleY = 4.5;
+        x = 300;
+        y = 200;
+        width = 80;
+        height = 90;
+        init(x, y); // Set up the starting location and size
+    }
+    
+    //2nd constructor to initialize location and scale!
+    public Golden(int x, int y, int scaleX, int scaleY) {
+    	this();
+    	this.x 		= x;
+    	this.y 		= y;
+//    	this.scaleX = scaleX;
+//    	this.scaleY = scaleY;
+    	init(x,y);
+    }
+    
+    //2nd constructor to initialize location and scale!
+    public Golden(int x, int y, int scaleX, int scaleY, int vx, int vy) {
+    	this();
+    	this.x 		= x;
+    	this.y 		= y;
+//    	this.scaleX = scaleX;
+//    	this.scaleY = scaleY;
+    	this.vx 	= vx; 
+    	this.vy 	= vy;
+    	init(x,y);
+    }
+    
+    public void setVelocityVariables(int vx, int vy) {
+    	this.vx = vx;
+    	this.vy = vy;
+    }
+    
+    
+    // Changes the picture to a new image file
+    public void changePicture(String imageFileName) {
+        img = getImage("/imgs/"+imageFileName);
+        init(x, y); // keep same location when changing image
+    }
+    
+    //update any variables for the object such as x, y, vx, vy
+    public void update() {
+    	
+    }
+    
+    
+    
+    // Draws the duck on the screen
+    public void paint(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;   // Graphics2D lets us draw images
+        g2.drawImage(img, x,y,width, height, null);      // Actually draw the duck image
+        update();
+        init(x,y);
+    }
+    
+    // Setup method: places the duck at (a, b) and scales it
+    private void init(double a, double b) {
+        tx.setToTranslation(a, b);        // Move the image to position (a, b)
+//        tx.scale(scaleX, scaleY);         // Resize the image using the scale variables
+    }
+
+
+    // Loads an image from the given file path
+    private Image getImage(String path) {
+        Image tempImage = null;
+        try {
+            URL imageURL = Golden.class.getResource(path);
+            tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tempImage;
+    }
+
+
+    // NEW: Method to set scale
+//    public void setScale(double sx, double sy) {
+////        scaleX = sx;
+////        scaleY = sy;
+//        init(x, y);  // Keep current location
+//    }
+
+
+    // NEW: Method to set location
+    public void setLocation(int newX, int newY) {
+        x = newX;
+        y = newY;
+        init(x, y);  // Keep current scale
+    }
+}
+
+
